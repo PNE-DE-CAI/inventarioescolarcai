@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Inventário Escolar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#3b82f6',
+        secondary: '#1e40af',
+        accent: '#10b981',
+        danger: '#ef4444',
+      }
+    }
+  }
+}
+</script>
+<style>
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .print-container {
+    padding: 20px !important;
+    margin: 0 !important;
+  }
+}
+</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+    <div class="bg-primary text-white p-6">
+      <h1 class="text-3xl font-bold text-center">Sistema de Inventário de Materiais Escolares</h1>
+      <p class="text-center mt-2 opacity-90">Controle de livros didáticos e materiais pedagógicos</p>
+    </div>
+    <div class="p-6">
+      <form id="inventoryForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="school" class="block text-sm font-medium text-gray-700 mb-1">Selecione a Escola:</label>
+            <select id="school" name="school" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+              <option value="">-- Selecione uma escola --</option>
+              <option value="E.E. ALADINO POLON">E.E. ALADINO POLON</option>
+              <option value="E.E. ALBERTO GRAF - CAPITÃO">E.E. ALBERTO GRAF - CAPITÃO</option>
+              <option value="E.E. ALBINO FIORE">E.E. ALBINO FIORE</option>
+              <option value="E.E. ALFRIED THEODOR WEISZFLOG">E.E. ALFRIED THEODOR WEISZFLOG</option>
+              <option value="E.E. ARMANDO SESTINI">E.E. ARMANDO SESTINI</option>
+              <option value="E.E. FRANCISCO GONÇALVES VIEIRA - PROF°">E.E. FRANCISCO GONÇALVES VIEIRA - PROF°</option>
+              <option value="E.E. ISAÍAS LUIZ MATIAZZO">E.E. ISAÍAS LUIZ MATIAZZO</option>
+              <option value="E.E. ISAURA VALENTINI HANSER - PROFª">E.E. ISAURA VALENTINI HANSER - PROFª</option>
+              <option value="E.E. JOSÉ CARLOS DA SILVA JUNIOR">E.E. JOSÉ CARLOS DA SILVA JUNIOR</option>
+              <option value="E.E. MARIO TOLEDO DE MORAES - DR.">E.E. MARIO TOLEDO DE MORAES - DR.</option>
+              <option value="E.E. NELSON MANZANARES - DR.">E.E. NELSON MANZANARES - DR.</option>
+              <option value="E.E. OLINDO DÁRTORA - DR.">E.E. OLINDO DÁRTORA - DR.</option>
+              <option value="E.E. OTTO WEISZFLOG">E.E. OTTO WEISZFLOG</option>
+              <option value="E.E. WALTHER WEISZFLOG">E.E. WALTHER WEISZFLOG</option>
+              <option value="E.E. ANA MARIA GARRIDO ORLANDIN - PROF.ª">E.E. ANA MARIA GARRIDO ORLANDIN - PROF.ª</option>
+              <option value="E.E. ÉLCIO JOSÉ PEREIRA COTRIM - PROF.">E.E. ÉLCIO JOSÉ PEREIRA COTRIM - PROF.</option>
+              <option value="E.E. JOAQUIM MARQUES DA SILVA SOBRINHO - TTE.">E.E. JOAQUIM MARQUES DA SILVA SOBRINHO - TTE.</option>
+              <option value="E.E. SUZANA DIAS">E.E. SUZANA DIAS</option>
+              <option value="E.E. WALTER RIBAS DE ANDRADE - PROF.">E.E. WALTER RIBAS DE ANDRADE - PROF.</option>
+              <option value="E.E. AFONSO MORENO">E.E. AFONSO MORENO</option>
+              <option value="E.E. APARECIDO ROBERTO TONELLOTTI - PROF.">E.E. APARECIDO ROBERTO TONELLOTTI - PROF.</option>
+              <option value="E.E. BELÉM DA SERRA">E.E. BELÉM DA SERRA</option>
+              <option value="E.E. BUENO DE AZEVEDO FILHO - PROF.">E.E. BUENO DE AZEVEDO FILHO - PROF.</option>
+              <option value="E.E. CELESTINA VALENTE LENGENFELDER - PROF.ª">E.E. CELESTINA VALENTE LENGENFELDER - PROF.ª</option>
+              <option value="E.E. CHÁCARA CAMPONESA/ Jd Vassouras">E.E. CHÁCARA CAMPONESA/ Jd Vassouras</option>
+              <option value="E.E. JARDIM ALEGRIA II">E.E. JARDIM ALEGRIA II</option>
+              <option value="E.E. JARDIM DAS ROSAS">E.E. JARDIM DAS ROSAS</option>
+              <option value="E.E. JARDIM SILVIA II">E.E. JARDIM SILVIA II</option>
+              <option value="E.E. JOSÉ DE BARROS MARTINS - EDITOR">E.E. JOSÉ DE BARROS MARTINS - EDITOR</option>
+              <option value="E.E. LENITA CORRÊA CAMARGO - PROF.a">E.E. LENITA CORRÊA CAMARGO - PROF.ª</option>
+              <option value="E.E. LYDIA SCALET WALKER - PROF.ª">E.E. LYDIA SCALET WALKER - PROF.ª</option>
+              <option value="E.E. PARQUE CENTO E VINTE II">E.E. PARQUE CENTO E VINTE II</option>
+              <option value="E.E. PEDRO PAULO AGUIAR">E.E. PEDRO PAULO AGUIAR</option>
+              <option value="E.E. ROGÉRIO LEVORIN - PROF.">E.E. ROGÉRIO LEVORIN - PROF.</option>
+              <option value="E.E. ULYSSES SANCHES RAMIRES - PROF.">E.E. ULYSSES SANCHES RAMIRES - PROF.</option>
+              <option value="E.E. VINCENZO LOBASSI">E.E. VINCENZO LOBASSI</option>
+              <option value="E.E. ADAIL JARBAS DUCLOS">E.E. ADAIL JARBAS DUCLOS</option>
+              <option value="E.E. AZEVEDO SOARES">E.E. AZEVEDO SOARES</option>
+              <option value="E.E. BENEDITO APARECIDO TAVARES - PROF.">E.E. BENEDITO APARECIDO TAVARES - PROF.</option>
+              <option value="E.E. BENEDITO FAGUNDES MARQUES">E.E. BENEDITO FAGUNDES MARQUES</option>
+              <option value="E.E. DOMINGOS CAMBIAGHI - PROF.">E.E. DOMINGOS CAMBIAGHI - PROF.</option>
+              <option value="E.E. ELVIRA PARADA MANGA - PROF.a">E.E. ELVIRA PARADA MANGA - PROF.ª</option>
+              <option value="E.E. IRACI SARTORI VIEIRA DA SILVA - PROF.ª">E.E. IRACI SARTORI VIEIRA DA SILVA - PROF.ª</option>
+              <option value="E.E. ISAURA DE MIRANDA BOTTO - PROFª">E.E. ISAURA DE MIRANDA BOTTO - PROFª</option>
+              <option value="E.E. IVONE DOS ANJOS DA SILVA CAMPOS - PROF.ª">E.E. IVONE DOS ANJOS DA SILVA CAMPOS - PROF.ª</option>
+              <option value="E.E. JOCIMARA VIEIRA DA SILVA - PROF.ª">E.E. JOCIMARA VIEIRA DA SILVA - PROF.ª</option>
+              <option value="E.E. KÁTIA MARIA TARIFA LEME TONELLI - PROF.a">E.E. KÁTIA MARIA TARIFA LEME TONELLI - PROF.</option>
+              <option value="E.E. LUIZ ALEXANDRE DOS SANTOS - VEREADOR">E.E. LUIZ ALEXANDRE DOS SANTOS - VEREADOR</option>
+              <option value="E.E. JOSÉ PARADA - PROF.">E.E. JOSÉ PARADA - PROF.</option>
+              <option value="E.E. PAULO DUARTE">E.E. PAULO DUARTE</option>
+              <option value="E.E. PEDRO LELIS DE SOUZA - PREFEITO">E.E. PEDRO LELIS DE SOUZA - PREFEITO</option>
+              <option value="E.E. RITUCO MITANI - PROF.ª">E.E. RITUCO MITANI - PROF.ª</option>
+              <option value="E.E. ZILTON BICUDO - PROF.">E.E. ZILTON BICUDO - PROF.</option>
+              <option value="E.E. ARTHUR WEINGRILL">E.E. ARTHUR WEINGRILL</option>
+              <option value="E.E. BAIRRO DO ITAIM">E.E. BAIRRO DO ITAIM</option>
+              <option value="E.E. BAIRRO JUNDIAIZINHO">E.E. BAIRRO JUNDIAIZINHO</option>
+              <option value="E.E. CARLOS AUGUSTO DE PÁDUA FLEURY - PROF.">E.E. CARLOS AUGUSTO DE PÁDUA FLEURY - PROF.</option>
+              <option value="E.E. HERMELINA DE ALBUQUERQUE PASSARELLA - PROF.ª">E.E. HERMELINA DE ALBUQUERQUE PASSARELLA - PROF.ª</option>
+              <option value="E.E. JARDIM SÃO FRANCISCO">E.E. JARDIM SÃO FRANCISCO</option>
+              <option value="E.E. JOSÉ ROBERTO MELCHIOR - DR.">E.E. JOSÉ ROBERTO MELCHIOR - DR.</option>
+              <option value="E.E. MARIA ZEZA GOMES DE OLIVEIRA">E.E. MARIA ZEZA GOMES DE OLIVEIRA</option>
+              <option value="E.E. NAIR HANNICKEL ROMARO">E.E. NAIR HANNICKEL ROMARO</option>
+              <option value="E.E. NIDE ZAIM CARDOSO - PROF.a">E.E. NIDE ZAIM CARDOSO - PROF.ª</option>
+              <option value="E.E. ODARICO OLIVEIRA NASCIMENTO - PROF.">E.E. ODARICO OLIVEIRA NASCIMENTO - PROF.</option>
+              <option value="E.E. OZILDE ALBUQUERQUE PASSARELLA - DR.">E.E. OZILDE ALBUQUERQUE PASSARELLA - DR.</option>
+              <option value="E.E. PEDRO GALRÃO DO NASCIMENTO">E.E. PEDRO GALRÃO DO NASCIMENTO</option>
+              <option value="E.E. PIETRO PETRI">E.E. PIETRO PETRI</option>
+            </select>
+          </div>
+          <div>
+            <label for="responsible" class="block text-sm font-medium text-gray-700 mb-1">Responsável pelo Inventário:</label>
+            <input type="text" id="responsible" name="responsible" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" placeholder="Nome completo">
+          </div>
+        </div>
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+          <div class="bg-gray-50 px-4 py-3 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-700">Itens do Inventário</h3>
+          </div>
+          <div class="p-4">
+            <div class="overflow-x-auto custom-scrollbar">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ano/Série</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Português + Matemática</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ciências Humanas</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ciências da Natureza</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider no-print">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="inventoryItems" class="bg-white divide-y divide-gray-200">
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Observações:</label>
+          <textarea id="notes" name="notes" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" placeholder="Adicione observações relevantes sobre o inventário..."></textarea>
+        </div>
+        <div class="flex flex-wrap gap-4 justify-end no-print">
+          <button type="button" id="addItemBtn" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            <i class="fas fa-plus mr-2"></i>Adicionar Item
+          </button>
+          <button type="button" id="clearFormBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus: outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+            <i class="fas fa-trash-alt mr-2"></i>Limpar Formulário
+          </button>
+          <button type="button" id="saveBtn" class="px-4 py-2 bg-accent text-white rounded-md hover:bg-green-700 focus: outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent">
+            <i class="fas fa-save mr-2"></i>Salvar Inventário
+          </button>
+          <button type="button" id="printBtn" class="px-4 py-2 bg-secondary text-white rounded-md hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">
+            <i class="fas fa-print mr-2"></i>Imprimir Relatório
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="previewModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modalTitle">Pré-visualização do Relatório</h3>
+              <div class="mt-4">
+                <div id="reportPreview" class="print-container bg-white p-6 rounded-lg shadow-inner custom-scrollbar max-h-[70vh] overflow-y-auto">
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" id="confirmSaveBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-accent text-base font-medium text-white hover:bg-green-700 focus: outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent sm:ml-3 sm:w-auto sm:text-sm">
+            <i class="fas fa-cloud-upload-alt mr-2"></i>Confirmar e Salvar
+          </button>
+          <button type="button" id="closePreviewBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+            <i class="fas fa-times mr-2"></i>Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="successModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+        <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+      </div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+          <div class="sm:flex sm:items-start">
+            <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+              <i class="fas fa-check text-green-600"></i>
+            </div>
+            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Sucesso!</h3>
+              <div class="mt-2">
+                <p class="text-sm text-gray-500" id="successMessage">O inventário foi salvo com sucesso.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <button type="button" id="closeSuccessBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary text-base font-medium text-white hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary sm:ml-3 sm:w-auto sm:text-sm">
+            <i class="fas fa-check mr-2"></i>OK
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the form with some items
+  addInventoryItem();
+  addInventoryItem();
+
+  // Add item button
+  document.getElementById('addItemBtn').addEventListener('click', addInventoryItem);
+
+  // Clear form button
+  document.getElementById('clearFormBtn').addEventListener('click', function() {
+    if (confirm('Tem certeza que deseja limpar todo o formulário? Todos os dados serão perdidos.')) {
+      document.getElementById('inventoryForm').reset();
+      document.getElementById('inventoryItems').innerHTML = ''; // Corrected ID to inventoryItems
+      addInventoryItem();
+      addInventoryItem();
+    }
+  });
+
+  // Save button
+  document.getElementById('saveBtn').addEventListener('click', previewReport);
+
+  // Print button
+  document.getElementById('printBtn').addEventListener('click', function() {
+    generateReport(); // Generate report before printing
+    window.print();
+  });
+
+  // Close preview modal
+  document.getElementById('closePreviewBtn').addEventListener('click', function() {
+    document.getElementById('previewModal').classList.add('hidden');
+  });
+
+  // Confirm save
+  document.getElementById('confirmSaveBtn').addEventListener('click', function() {
+    saveToDrive();
+    document.getElementById('previewModal').classList.add('hidden');
+  });
+
+  // Close success modal
+  document.getElementById('closeSuccessBtn').addEventListener('click', function() {
+    document.getElementById('successModal').classList.add('hidden');
+  });
+});
+
+// Counter for unique IDs
+let itemCounter = 0;
+
+function addInventoryItem() {
+  itemCounter++;
+  const tbody = document.getElementById('inventoryItems'); // Corrected ID to inventoryItems
+  const tr = document.createElement('tr');
+  tr.className = 'item-row';
+  tr.dataset.id = itemCounter;
+
+  // Year/Grade selection
+  const yearTd = document.createElement('td');
+  yearTd.className = 'px-6 py-4 whitespace-nowrap';
+  const yearSelect = document.createElement('select');
+  yearSelect.name = `year_${itemCounter}`;
+  yearSelect.className = 'year-select w-full px-2 py-1 border border-gray-300 rounded focus:ring-primary focus:border-primary';
+  ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano', '6º Ano', '7º Ano', '8º Ano', '9º Ano', '1° EM', '2° EM', '3° EM'].forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.textContent = year;
+    yearSelect.appendChild(option);
+  });
+  yearTd.appendChild(yearSelect);
+
+  // Portuguese + Math
+  const portMathTd = document.createElement('td');
+  portMathTd.className = 'px-6 py-4 whitespace-nowrap';
+  const portMathInput = document.createElement('input');
+  portMathInput.type = 'number';
+  portMathInput.name = `port_math_${itemCounter}`;
+  portMathInput.className = 'port-math-input w-full px-2 py-1 border border-gray-300 rounded focus:ring-primary focus:border-primary';
+  portMathInput.min = '0';
+  portMathInput.value = '0';
+  portMathTd.appendChild(portMathInput);
+
+  // Human Sciences
+  const humanTd = document.createElement('td');
+  humanTd.className = 'px-6 py-4 whitespace-nowrap';
+  const humanInput = document.createElement('input');
+  humanInput.type = 'number';
+  humanInput.name = `human_${itemCounter}`;
+  humanInput.className = 'human-input w-full px-2 py-1 border border-gray-300 rounded focus:ring-primary focus:border-primary';
+  humanInput.min = '0';
+  humanInput.value = '0';
+  humanTd.appendChild(humanInput);
+
+  // Nature Sciences
+  const natureTd = document.createElement('td');
+  natureTd.className = 'px-6 py-4 whitespace-nowrap';
+  const natureInput = document.createElement('input');
+  natureInput.type = 'number';
+  natureInput.name = `nature_${itemCounter}`;
+  natureInput.className = 'nature-input w-full px-2 py-1 border border-gray-300 rounded focus:ring-primary focus:border-primary';
+  natureInput.min = '0';
+  natureInput.value = '0';
+  natureTd.appendChild(natureInput);
+
+  // Status
+  const statusTd = document.createElement('td');
+  statusTd.className = 'px-6 py-4 whitespace-nowrap';
+  const statusSelect = document.createElement('select');
+  statusSelect.name = `status_${itemCounter}`;
+  statusSelect.className = 'status-select w-full px-2 py-1 border border-gray-300 rounded focus:ring-primary focus:border-primary';
+  ['Completo', 'Faltando', 'Sobrando'].forEach(status => {
+    const option = document.createElement('option');
+    option.value = status;
+    option.textContent = status;
+    statusSelect.appendChild(option);
+  });
+  statusTd.appendChild(statusSelect);
+
+  // Append all cells to the row
+  tr.appendChild(yearTd);
+  tr.appendChild(portMathTd);
+  tr.appendChild(humanTd);
+  tr.appendChild(natureTd);
+  tr.appendChild(statusTd);
+
+  // Add delete button if not the first two rows (initial items)
+  if (itemCounter > 2) {
+    const actionTd = document.createElement('td');
+    actionTd.className = 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium no-print';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.type = 'button';
+    deleteBtn.className = 'delete-item text-red-600 hover:text-red-900';
+    deleteBtn.innerHTML = '<i class="fas fa-trash-alt mr-2"></i>Excluir';
+    deleteBtn.addEventListener('click', function() {
+      tr.remove(); // Remove the parent row
+    });
+    actionTd.appendChild(deleteBtn);
+    tr.appendChild(actionTd);
+  }
+
+  tbody.appendChild(tr);
+}
+
+function generateReport() {
+  const school = document.getElementById('school').value;
+  const responsible = document.getElementById('responsible').value;
+  const notes = document.getElementById('notes').value;
+  const date = new Date().toLocaleDateString('pt-BR');
+
+  const inventoryRowsHtml = generateInventoryRowsHtml(); // Call the corrected function
+
+  const reportDiv = document.getElementById('reportPreview');
+  reportDiv.innerHTML = `
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold text-center mb-2">Relatório de Inventário Escolar</h2>
+      <div class="flex justify-between mb-4">
+        <p><strong>Data:</strong> ${date}</p>
+        <p><strong>Responsável:</strong> ${responsible}</p>
+      </div>
+      <h3 class="text-xl font-semibold mb-2">Escola: ${school}</h3>
+      ${notes ? `<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+        <p class="text-sm text-yellow-800"><strong>Observações:</strong> ${notes}</p>
+      </div>` : ''}
+    </div>
+    ${inventoryRowsHtml}
+    <div class="flex justify-around mt-8">
+      <div class="w-1/2 text-center">
+        <p class="mb-8">___________________________________</p>
+        <p>Assinatura do Diretor(a)</p>
+      </div>
+      <div class="w-1/2 text-center">
+        <p class="mb-8">___________________________________</p>
+        <p>Assinatura do Responsável</p>
+      </div>
+    </div>
+    <div class="mt-8 text-xs text-gray-500 text-center">
+      <p>Sistema de Inventário Escolar - Gerado em ${new Date().toLocaleString('pt-BR')}</p>
+    </div>
+  `;
+}
+
+// Corrected and renamed function to clearly indicate it generates HTML for report
+function generateInventoryRowsHtml() {
+  const rows = document.querySelectorAll('#inventoryItems .item-row'); // Target rows within the tbody
+  let html = `
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200 mt-4">
+        <thead class="bg-gray-100">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ano/Série</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Português + Matemática</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ciências Humanas</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ciências da Natureza</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+  `;
+
+  rows.forEach(row => {
+    const year = row.querySelector('.year-select').value;
+    const portMath = row.querySelector('.port-math-input').value;
+    const human = row.querySelector('.human-input').value;
+    const nature = row.querySelector('.nature-input').value;
+    const status = row.querySelector('.status-select').value;
+    
+    html += `
+      <tr>
+        <td class="px-6 py-4 whitespace-nowrap">${year}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${portMath}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${human}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${nature}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${status}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+        </tbody>
+      </table>
+    </div>
+  `;
+  return html;
+}
+
+function previewReport() {
+  document.getElementById('previewModal').classList.remove('hidden');
+  generateReport(); // Generate the report content when opening the preview
+}
+
+function saveToDrive() {
+  const school = document.getElementById('school').value;
+  const responsible = document.getElementById('responsible').value;
+  document.getElementById('successMessage').textContent = `O inventário da escola ${school} foi salvo com sucesso no Google Drive. Responsável: ${responsible}`;
+  document.getElementById('successModal').classList.remove('hidden');
+
+  // In a real app, you would:
+  // 1. Convert the report to PDF (using a library or service)
+  // 2. Use Google Drive API to upload to the specified folder
+  // 3. Handle authentication and permissions
+  // 4. Provide feedback to the user
+  console.log('Simulating save to Google Drive folder: https://drive.google.com/drive/folders/1-VNqEjV1IoS-Y55nRiDK9zB5rNYwOu-E');
+}
+</script>
+</body>
+</html>
